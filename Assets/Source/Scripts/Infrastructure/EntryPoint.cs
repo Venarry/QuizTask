@@ -16,8 +16,8 @@ namespace Assets.Source.Scripts.Infrastructure
             CellFactory cellFactory = new CellFactory();
             IWinCondition winCondition = new LevelWinCondition();
             LevelsDataSource levelsDataSource = new LevelsDataSource();
-            LevelSO[] levels = levelsDataSource.GetAll();
 
+            LevelSO[] levels = levelsDataSource.GetAll();
             _levelGenerator.Init(cellFactory, levels);
 
             GameRestarter gameRestarter = new GameRestarter(_levelGenerator, winCondition);
