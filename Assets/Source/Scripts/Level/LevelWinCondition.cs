@@ -8,6 +8,8 @@ namespace Assets.Source.Scripts.Level
     {
         private readonly List<string> _usedWinCondition = new List<string>();
 
+        public event Action<string> Installed;
+
         public void Reset()
         {
             _usedWinCondition.Clear();
@@ -34,6 +36,7 @@ namespace Assets.Source.Scripts.Level
             string winIdentificator = availableCells[winIdentificatorIndex].Identificator;
 
             _usedWinCondition.Add(winIdentificator);
+            Installed?.Invoke(winIdentificator);
 
             return winIdentificator;
         }

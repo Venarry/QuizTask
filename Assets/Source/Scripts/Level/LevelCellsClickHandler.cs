@@ -1,21 +1,19 @@
 using Assets.Source.Scripts.Cells;
 using System.Collections;
 using System.Threading.Tasks;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Source.Scripts.Level
 {
-    public class LevelWinHandler : MonoBehaviour
+    public class LevelCellsClickHandler : MonoBehaviour
     {
         private const float NextButtonShowDelay = 2f;
-        private const string FindConditionText = "Find";
 
-        [SerializeField] private FadeInEffect _blackPanel;
         [SerializeField] private Button _nextLevelButton;
         [SerializeField] private Button _restartGameButton;
-        [SerializeField] private TMP_Text _winConditionText;
+        [SerializeField] private FadeInEffect _blackPanel;
+        [SerializeField] private ParticleSystem _starsFirework;
 
         private readonly WaitForSeconds _waitForSeconds = new WaitForSeconds(NextButtonShowDelay);
 
@@ -58,7 +56,6 @@ namespace Assets.Source.Scripts.Level
             _activeCells = cells;
 
             _winIdentificator = _winCondition.RegisterNewCondition(cells);
-            _winConditionText.text = $"{FindConditionText} {_winIdentificator}";
 
             foreach (Cell cell in cells)
             {
@@ -77,15 +74,18 @@ namespace Assets.Source.Scripts.Level
             }
         }
 
-        private void OnCellClick(Cell cell)
+        private void OnCellClick(Cell cell, Vector3 clickPosition)
         {
             if (cell.Identificator == _winIdentificator)
             {
+                Instantiate(_starsFirework, clickPosition, Quaternion.identity);
+                cell.StartSymbolBounceEffect();
+
                 StartCoroutine(HandleSuccessfulClick());
             }
             else
             {
-                cell.StartEaseInBounce();
+                cell.StartSymbolEaseInBounce();
             }
         }
 
@@ -120,12 +120,13 @@ namespace Assets.Source.Scripts.Level
             _levelGenerator.SpawnNextLevel(startBounceEffect: false);
         }
 
-        private void OnRestartButtonClick()
+        private async void OnRestartButtonClick()
         {
             _restartGameButton.gameObject.SetActive(false);
-            _blackPanel.Hide();
 
-            _gameRestarter.Restart();
+            await _gameRestarter.Restart();
+
+            _blackPanel.Hide();
         }
     }
 }

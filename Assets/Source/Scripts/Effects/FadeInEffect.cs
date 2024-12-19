@@ -42,22 +42,4 @@ public class FadeInEffect : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-
-    private IEnumerator Fading()
-    {
-        float timer = 0;
-        Color targetColor = _image.color;
-
-        float maxColorValue = 255;
-        targetColor.a = _targetFadeValue / maxColorValue;
-
-        while (timer < _fadeDuration)
-        {
-            float progress = timer / _fadeDuration;
-            _image.color = Color.Lerp(_image.color, targetColor, progress);
-            timer += Time.deltaTime;
-
-            yield return null;
-        }
-    }
 }

@@ -12,7 +12,7 @@ namespace Assets.Source.Scripts.Cells
         private CellView _cellView;
         private EffectsAnimator _bounceEffect;
 
-        public event Action<Cell> Clicked;
+        public event Action<Cell, Vector3> Clicked;
 
         public string Identificator { get; private set; }
 
@@ -34,19 +34,24 @@ namespace Assets.Source.Scripts.Cells
             Identificator = identificator;
         }
 
-        public void StartBounceEffect()
+        public void StartCellBounceEffect()
         {
-            _bounceEffect.StartBounce();
+            _bounceEffect.StartCellBounce();
         }
 
-        public void StartEaseInBounce()
+        public void StartSymbolEaseInBounce()
         {
-            _bounceEffect.StartEaseInBounce();
+            _bounceEffect.StartSymbolEaseInBounce();
         }
 
-        private void OnClick()
+        public void StartSymbolBounceEffect()
         {
-            Clicked?.Invoke(this);
+            _bounceEffect.StartSymbolBounceEffect();
+        }
+
+        private void OnClick(Vector3 clickPosition)
+        {
+            Clicked?.Invoke(this, clickPosition);
         }
     }
 }

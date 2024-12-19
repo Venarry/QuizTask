@@ -8,13 +8,20 @@ public class EffectsAnimator : MonoBehaviour
     [SerializeField] private Animator _cellAnimator;
     [SerializeField] private Animator _symbolAnimator;
 
-    public void StartBounce()
+    private readonly float _transitionDuration = 0.1f;
+
+    public void StartCellBounce()
     {
-        _cellAnimator.CrossFadeInFixedTime(NameBounceAnimation, 0.1f);
+        _cellAnimator.CrossFadeInFixedTime(NameBounceAnimation, _transitionDuration);
     }
 
-    public void StartEaseInBounce()
+    public void StartSymbolEaseInBounce()
     {
-        _symbolAnimator.CrossFadeInFixedTime(NameEaseInBounceAnimation, 0.1f);
+        _symbolAnimator.CrossFadeInFixedTime(NameEaseInBounceAnimation, _transitionDuration);
+    }
+    
+    public void StartSymbolBounceEffect()
+    {
+        _symbolAnimator.CrossFadeInFixedTime(NameBounceAnimation, _transitionDuration);
     }
 }

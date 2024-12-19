@@ -64,7 +64,7 @@ namespace Assets.Source.Scripts.Level
 
                 if(startBounceEffect == true)
                 {
-                    spawnedCell.StartBounceEffect();
+                    spawnedCell.StartCellBounceEffect();
                 }
 
                 _spawnedCells.Add(spawnedCell);

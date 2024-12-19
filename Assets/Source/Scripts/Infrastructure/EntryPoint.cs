@@ -8,8 +8,9 @@ namespace Assets.Source.Scripts.Infrastructure
     public class EntryPoint : MonoBehaviour
     {
         [SerializeField] private LevelGenerator _levelGenerator;
-        [SerializeField] private LevelWinHandler _levelWinHandler;
-        [SerializeField] private LevelSO _level;
+        [SerializeField] private LevelCellsClickHandler _levelWinHandler;
+        [SerializeField] private WinConditionView _winConditionView;
+        [SerializeField] private GameRestarter _gameRestarter;
 
         private void Awake()
         {
@@ -18,10 +19,12 @@ namespace Assets.Source.Scripts.Infrastructure
             LevelsDataSource levelsDataSource = new LevelsDataSource();
 
             LevelSO[] levels = levelsDataSource.GetAll();
-            _levelGenerator.Init(cellFactory, levels);
 
-            GameRestarter gameRestarter = new GameRestarter(_levelGenerator, winCondition);
-            _levelWinHandler.Init(_levelGenerator, winCondition, gameRestarter);
+            _levelGenerator.Init(cellFactory, levels);
+            _gameRestarter.Init(_levelGenerator, winCondition);
+            _levelWinHandler.Init(_levelGenerator, winCondition, _gameRestarter);
+            _winConditionView.Init(winCondition);
+
             _levelGenerator.SpawnNextLevel(startBounceEffect: true);
         }
     }

@@ -6,11 +6,20 @@ namespace Assets.Source.Scripts.Cells
 {
     public class CellClickHandler : MonoBehaviour, IPointerClickHandler
     {
-        public event Action Clicked;
+        public event Action<Vector3> Clicked;
+        private Camera _camera;
+
+        private void Awake()
+        {
+            _camera = Camera.main;
+        }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            Clicked?.Invoke();
+            Vector3 clickPosition = transform.position;
+            clickPosition.z = 0;
+
+            Clicked?.Invoke(clickPosition);
         }
     }
 }
