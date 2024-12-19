@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 368875152306588688}
   - component: {fileID: 9221888666602060250}
   - component: {fileID: 208378605096063036}
+  - component: {fileID: 3733960418898278147}
   m_Layer: 5
   m_Name: Symbol
   m_TagString: Untagged
@@ -75,6 +76,25 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &3733960418898278147
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092800073861115450}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9bd81cfb1a7cd834aae643a2562bbc50, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6375415510505289567
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,6 +221,8 @@ GameObject:
   - component: {fileID: 8950885275075368436}
   - component: {fileID: 7552572372370693971}
   - component: {fileID: 1712922457906845631}
+  - component: {fileID: 7803149558243402663}
+  - component: {fileID: 8872465666059517341}
   m_Layer: 5
   m_Name: Cell
   m_TagString: Untagged
@@ -304,3 +326,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ac3a6fe7a22a24786732955270b8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7803149558243402663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8950885275075368438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0e42fb0da4ca354ebecc5a1537b42cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cellAnimator: {fileID: 8872465666059517341}
+  _symbolAnimator: {fileID: 3733960418898278147}
+--- !u!95 &8872465666059517341
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8950885275075368438}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ce1def7ab2261964a8a1ee678b4ad895, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

@@ -36,7 +36,7 @@ namespace Assets.Source.Scripts.Level
             _activeLevelIndex = 0;
         }
 
-        public void SpawnNextLevel()
+        public void SpawnNextLevel(bool startBounceEffect)
         {
             ClearLevel();
 
@@ -61,6 +61,11 @@ namespace Assets.Source.Scripts.Level
                         position: _grid.GetPosition(rowIndex, columnIndex),
                         size: CellsSize,
                         parent: _cellsParent);
+
+                if(startBounceEffect == true)
+                {
+                    spawnedCell.StartBounceEffect();
+                }
 
                 _spawnedCells.Add(spawnedCell);
             }

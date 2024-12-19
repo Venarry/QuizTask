@@ -22,7 +22,7 @@ namespace Assets.Source.Scripts.Infrastructure
 
             GameRestarter gameRestarter = new GameRestarter(_levelGenerator, winCondition);
             _levelWinHandler.Init(_levelGenerator, winCondition, gameRestarter);
-            _levelGenerator.SpawnNextLevel();
+            _levelGenerator.SpawnNextLevel(startBounceEffect: true);
         }
     }
 }

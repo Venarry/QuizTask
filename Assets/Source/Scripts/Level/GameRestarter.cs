@@ -16,6 +16,6 @@ public class GameRestarter
         _levelGenerator.ResetLevels();
         _winCondition.Reset();
 
-        _levelGenerator.SpawnNextLevel();
+        _levelGenerator.SpawnNextLevel(startBounceEffect: true);
     }
 }

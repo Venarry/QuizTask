@@ -1,5 +1,6 @@
 using Assets.Source.Scripts.Cells;
 using System.Collections;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,7 +12,7 @@ namespace Assets.Source.Scripts.Level
         private const float NextButtonShowDelay = 2f;
         private const string FindConditionText = "Find";
 
-        [SerializeField] private Image _blackPanel;
+        [SerializeField] private FadeInEffect _blackPanel;
         [SerializeField] private Button _nextLevelButton;
         [SerializeField] private Button _restartGameButton;
         [SerializeField] private TMP_Text _winConditionText;
@@ -80,18 +81,26 @@ namespace Assets.Source.Scripts.Level
         {
             if (cell.Identificator == _winIdentificator)
             {
-                StartCoroutine(HandleSuccessfullClick());
+                StartCoroutine(HandleSuccessfulClick());
             }
             else
             {
+                cell.StartEaseInBounce();
             }
         }
 
-        private IEnumerator HandleSuccessfullClick()
+        private IEnumerator HandleSuccessfulClick()
         {
-            _blackPanel.gameObject.SetActive(true);
+            _blackPanel.Show();
 
             yield return _waitForSeconds;
+
+            Task task = _blackPanel.Turn();
+            
+            while (task.IsCompleted == false)
+            {
+                yield return null;
+            }
 
             if (_levelGenerator.HasLevels == true)
             {
@@ -106,15 +115,15 @@ namespace Assets.Source.Scripts.Level
         private void OnNextButtonClick()
         {
             _nextLevelButton.gameObject.SetActive(false);
-            _blackPanel.gameObject.SetActive(false);
+            _blackPanel.Hide();
 
-            _levelGenerator.SpawnNextLevel();
+            _levelGenerator.SpawnNextLevel(startBounceEffect: false);
         }
 
         private void OnRestartButtonClick()
         {
             _restartGameButton.gameObject.SetActive(false);
-            _blackPanel.gameObject.SetActive(false);
+            _blackPanel.Hide();
 
             _gameRestarter.Restart();
         }

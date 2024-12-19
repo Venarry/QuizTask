@@ -5,10 +5,12 @@ namespace Assets.Source.Scripts.Cells
 {
     [RequireComponent(typeof(CellClickHandler))]
     [RequireComponent(typeof(CellView))]
+    [RequireComponent(typeof(EffectsAnimator))]
     public class Cell : MonoBehaviour
     {
         private CellClickHandler _cellClickHandler;
         private CellView _cellView;
+        private EffectsAnimator _bounceEffect;
 
         public event Action<Cell> Clicked;
 
@@ -18,6 +20,7 @@ namespace Assets.Source.Scripts.Cells
         {
             _cellClickHandler = GetComponent<CellClickHandler>();
             _cellView = GetComponent<CellView>();
+            _bounceEffect = GetComponent<EffectsAnimator>();
         }
 
         private void OnEnable()
@@ -29,6 +32,16 @@ namespace Assets.Source.Scripts.Cells
         {
             _cellView.Init(sprite, size, sriteAngle);
             Identificator = identificator;
+        }
+
+        public void StartBounceEffect()
+        {
+            _bounceEffect.StartBounce();
+        }
+
+        public void StartEaseInBounce()
+        {
+            _bounceEffect.StartEaseInBounce();
         }
 
         private void OnClick()

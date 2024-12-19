@@ -723,6 +723,7 @@ GameObject:
   - component: {fileID: 645676094}
   - component: {fileID: 645676096}
   - component: {fileID: 645676095}
+  - component: {fileID: 645676097}
   m_Layer: 5
   m_Name: ButtonsPanelPanel
   m_TagString: Untagged
@@ -789,6 +790,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 645676093}
   m_CullTransparentMesh: 1
+--- !u!114 &645676097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645676093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b708164ceb86a2a4ca2c38a31475b965, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 645676095}
+  _targetFadeValue: 150
 --- !u!1 &684520133
 GameObject:
   m_ObjectHideFlags: 0
@@ -6043,7 +6058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30466559037c2af4bbc029e3929189a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _blackPanel: {fileID: 645676095}
+  _blackPanel: {fileID: 645676097}
   _nextLevelButton: {fileID: 522350398}
   _restartGameButton: {fileID: 684520135}
   _winConditionText: {fileID: 524856344}
