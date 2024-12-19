@@ -3,19 +3,25 @@ using Assets.Source.Scripts.Level;
 using Assets.Source.Scripts.SO;
 using UnityEngine;
 
-public class EntryPoint : MonoBehaviour
+namespace Assets.Source.Scripts.Infrastructure
 {
-    [SerializeField] private LevelGenerator _levelGenerator;
-    [SerializeField] private LevelSO _level;
-
-    private void Awake()
+    public class EntryPoint : MonoBehaviour
     {
-        CellFactory cellFactory = new CellFactory();
-        IWinCondition winCondition = new LevelWinCondition();
+        [SerializeField] private LevelGenerator _levelGenerator;
+        [SerializeField] private LevelWinHandler _levelWinHandler;
+        [SerializeField] private LevelSO _level;
 
-        _levelGenerator.Init(cellFactory);
+        private void Awake()
+        {
+            CellFactory cellFactory = new CellFactory();
+            IWinCondition winCondition = new LevelWinCondition();
+            LevelsDataSource levelsDataSource = new LevelsDataSource();
+            LevelSO[] levels = levelsDataSource.GetAll();
 
-        LevelWinHandler levelWinHandler = new LevelWinHandler(_levelGenerator, winCondition);
-        _levelGenerator.SpawnLevel(_level);
+            _levelGenerator.Init(cellFactory, levels);
+
+            _levelWinHandler.Init(_levelGenerator, winCondition);
+            _levelGenerator.SpawnNextLevel();
+        }
     }
 }
