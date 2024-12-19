@@ -6,7 +6,6 @@ namespace Assets.Source.Scripts.Level
 {
     public class LevelWinCondition : IWinCondition
     {
-        private readonly LevelGenerator _levelGenerator;
         private readonly List<string> _usedWinCondition = new List<string>();
 
         public void Reset()
@@ -26,8 +25,17 @@ namespace Assets.Source.Scripts.Level
                 }
             }
 
+            if(availableCells.Count == 0)
+            {
+                throw new ArgumentNullException("Нет доступного условия для победы");
+            }    
+
             int winIdentificatorIndex = UnityEngine.Random.Range(0, availableCells.Count);
-            return availableCells[winIdentificatorIndex].Identificator;
+            string winIdentificator = availableCells[winIdentificatorIndex].Identificator;
+
+            _usedWinCondition.Add(winIdentificator);
+
+            return winIdentificator;
         }
     }
 }

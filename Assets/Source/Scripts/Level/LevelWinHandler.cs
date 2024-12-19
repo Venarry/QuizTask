@@ -1,105 +1,122 @@
 using Assets.Source.Scripts.Cells;
-using Assets.Source.Scripts.Level;
-using Assets.Source.Scripts.SO;
-using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LevelWinHandler : MonoBehaviour
+namespace Assets.Source.Scripts.Level
 {
-    private const float NextButtonShowDelay = 2f;
-
-    [SerializeField] private Image _blackPanel;
-    [SerializeField] private Button _nextLevelButton;
-    [SerializeField] private Button _restartGameButton;
-    [SerializeField] private TMP_Text _winConditionText;
-
-    private LevelGenerator _levelGenerator;
-    private IWinCondition _winCondition;
-    private string _winIdentificator;
-    private readonly WaitForSeconds _waitForSeconds = new WaitForSeconds(NextButtonShowDelay);
-    private Cell[] _activeCells;
-
-    private void OnEnable()
+    public class LevelWinHandler : MonoBehaviour
     {
-        _nextLevelButton.onClick.AddListener(OnNextButtonClick);
-    }
+        private const float NextButtonShowDelay = 2f;
+        private const string FindConditionText = "Find";
 
-    private void OnDisable()
-    {
-        _nextLevelButton.onClick.RemoveListener(OnNextButtonClick);
-    }
+        [SerializeField] private Image _blackPanel;
+        [SerializeField] private Button _nextLevelButton;
+        [SerializeField] private Button _restartGameButton;
+        [SerializeField] private TMP_Text _winConditionText;
 
-    public void Init(LevelGenerator levelGenerator, IWinCondition winCondition)
-    {
-        _levelGenerator = levelGenerator;
-        _winCondition = winCondition;
+        private readonly WaitForSeconds _waitForSeconds = new WaitForSeconds(NextButtonShowDelay);
 
-        _levelGenerator.LevelSpawned += OnLevelSpawned;
-    }
+        private LevelGenerator _levelGenerator;
+        private IWinCondition _winCondition;
+        private GameRestarter _gameRestarter;
+        private string _winIdentificator;
+        private Cell[] _activeCells;
 
-    public void Disable()
-    {
-        _levelGenerator.LevelSpawned -= OnLevelSpawned;
-    }
-
-    private void OnLevelSpawned(Cell[] cells)
-    {
-        DisableButtons();
-
-        _activeCells = cells;
-
-        _winIdentificator = _winCondition.RegisterNewCondition(cells);
-        _winConditionText.text = _winIdentificator;
-
-        foreach (Cell cell in cells)
+        private void OnEnable()
         {
-            cell.Clicked += OnCellClick;
+            _nextLevelButton.onClick.AddListener(OnNextButtonClick);
+            _restartGameButton.onClick.AddListener(OnRestartButtonClick);
         }
-    }
 
-    private void DisableButtons()
-    {
-        if (_activeCells == null)
-            return;
-
-        foreach (Cell cell in _activeCells)
+        private void OnDisable()
         {
-            cell.Clicked -= OnCellClick;
+            _nextLevelButton.onClick.RemoveListener(OnNextButtonClick);
+            _restartGameButton.onClick.RemoveListener(OnRestartButtonClick);
         }
-    }
 
-    private void OnCellClick(Cell cell)
-    {
-        if(cell.Identificator == _winIdentificator)
+        public void Init(LevelGenerator levelGenerator, IWinCondition winCondition, GameRestarter gameRestarter)
         {
-            StartCoroutine(ShowNextLevelButton());
+            _levelGenerator = levelGenerator;
+            _winCondition = winCondition;
+            _gameRestarter = gameRestarter;
+
+            _levelGenerator.LevelSpawned += OnLevelSpawned;
         }
-        else
+
+        public void Disable()
         {
+            _levelGenerator.LevelSpawned -= OnLevelSpawned;
         }
-    }
 
-    private IEnumerator ShowNextLevelButton()
-    {
-        _blackPanel.gameObject.SetActive(true);
-
-        yield return _waitForSeconds;
-
-        if (_levelGenerator.HasLevels == true)
+        private void OnLevelSpawned(Cell[] cells)
         {
-            _nextLevelButton.gameObject.SetActive(true);
-        }
-        else
-        {
-            _restartGameButton.gameObject.SetActive(true);
-        }
-    }
+            DisableButtons();
 
-    private void OnNextButtonClick()
-    {
-        _levelGenerator.SpawnNextLevel();
+            _activeCells = cells;
+
+            _winIdentificator = _winCondition.RegisterNewCondition(cells);
+            _winConditionText.text = $"{FindConditionText} {_winIdentificator}";
+
+            foreach (Cell cell in cells)
+            {
+                cell.Clicked += OnCellClick;
+            }
+        }
+
+        private void DisableButtons()
+        {
+            if (_activeCells == null)
+                return;
+
+            foreach (Cell cell in _activeCells)
+            {
+                cell.Clicked -= OnCellClick;
+            }
+        }
+
+        private void OnCellClick(Cell cell)
+        {
+            if (cell.Identificator == _winIdentificator)
+            {
+                StartCoroutine(HandleSuccessfullClick());
+            }
+            else
+            {
+            }
+        }
+
+        private IEnumerator HandleSuccessfullClick()
+        {
+            _blackPanel.gameObject.SetActive(true);
+
+            yield return _waitForSeconds;
+
+            if (_levelGenerator.HasLevels == true)
+            {
+                _nextLevelButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                _restartGameButton.gameObject.SetActive(true);
+            }
+        }
+
+        private void OnNextButtonClick()
+        {
+            _nextLevelButton.gameObject.SetActive(false);
+            _blackPanel.gameObject.SetActive(false);
+
+            _levelGenerator.SpawnNextLevel();
+        }
+
+        private void OnRestartButtonClick()
+        {
+            _restartGameButton.gameObject.SetActive(false);
+            _blackPanel.gameObject.SetActive(false);
+
+            _gameRestarter.Restart();
+        }
     }
 }

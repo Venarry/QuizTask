@@ -2,9 +2,7 @@
 using Assets.Source.Scripts.SO;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Assets.Source.Scripts.Level
 {
@@ -16,29 +14,37 @@ namespace Assets.Source.Scripts.Level
         [SerializeField] private float _outline = 10;
 
         private readonly List<Cell> _spawnedCells = new List<Cell>();
-        private readonly Queue<LevelSO> _levels = new Queue<LevelSO>();
+        private readonly List<LevelSO> _levels = new List<LevelSO>();
         private readonly QuizGrid _grid = new QuizGrid();
         private CellFactory _cellFactory;
+        private int _activeLevelIndex = 0;
 
         public event Action<Cell[]> LevelSpawned;
 
-        public bool HasLevels => _levels.Count > 0;
+        public bool HasLevels => _levels.Count > _activeLevelIndex;
 
         public void Init(CellFactory cellFactory, LevelSO[] levels)
         {
             _cellFactory = cellFactory;
 
-            foreach (LevelSO level in levels)
-            {
-                _levels.Enqueue(level);
-            }
+            _levels.AddRange(levels);
+            _activeLevelIndex = 0;
+        }
+
+        public void ResetLevels()
+        {
+            _activeLevelIndex = 0;
         }
 
         public void SpawnNextLevel()
         {
             ClearLevel();
 
-            LevelSO nextLevel = _levels.Dequeue();
+            if (HasLevels == false)
+                return;
+
+            LevelSO nextLevel = _levels[_activeLevelIndex];
+            _activeLevelIndex++;
 
             CellSO[] cells = nextLevel.Cells;
             int columnsCount = nextLevel.ColumnsCount;
@@ -48,11 +54,11 @@ namespace Assets.Source.Scripts.Level
             for (int i = 0; i < cells.Length; i++)
             {
                 int rowIndex = i / columnsCount;
-                int columnsIndex = i % columnsCount;
+                int columnIndex = i % columnsCount;
 
                 Cell spawnedCell = _cellFactory.Create(
                         cellSO: cells[i],
-                        position: _grid.GetPosition(rowIndex, columnsIndex),
+                        position: _grid.GetPosition(rowIndex, columnIndex),
                         size: CellsSize,
                         parent: _cellsParent);
 

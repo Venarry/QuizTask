@@ -20,7 +20,8 @@ namespace Assets.Source.Scripts.Infrastructure
 
             _levelGenerator.Init(cellFactory, levels);
 
-            _levelWinHandler.Init(_levelGenerator, winCondition);
+            GameRestarter gameRestarter = new GameRestarter(_levelGenerator, winCondition);
+            _levelWinHandler.Init(_levelGenerator, winCondition, gameRestarter);
             _levelGenerator.SpawnNextLevel();
         }
     }
