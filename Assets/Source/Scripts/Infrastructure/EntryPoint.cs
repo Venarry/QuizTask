@@ -21,11 +21,17 @@ namespace Assets.Source.Scripts.Infrastructure
             LevelSO[] levels = levelsDataSource.GetAll();
 
             _levelGenerator.Init(cellFactory, levels);
-            _gameRestarter.Init(_levelGenerator, winCondition);
-            _levelWinHandler.Init(_levelGenerator, winCondition, _gameRestarter);
             _winConditionView.Init(winCondition);
+            _gameRestarter.Init(_levelGenerator, winCondition, _winConditionView);
+            _levelWinHandler.Init(_levelGenerator, winCondition, _gameRestarter);
 
             _levelGenerator.SpawnNextLevel(startBounceEffect: true);
+        }
+
+        private void OnDestroy()
+        {
+            _winConditionView.Disable();
+            _levelWinHandler.Disable();
         }
     }
 }

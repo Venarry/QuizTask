@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class GameRestarter : MonoBehaviour
 {
-    [SerializeField] private FadeInEffect _loadingPanel;
+    [SerializeField] private FadeImage _loadingPanel;
 
     private LevelGenerator _levelGenerator;
     private IWinCondition _winCondition;
+    private WinConditionView _winConditionView;
 
-    public void Init(LevelGenerator levelGenerator, IWinCondition winCondition)
+    public void Init(LevelGenerator levelGenerator, IWinCondition winCondition, WinConditionView winConditionView)
     {
         _levelGenerator = levelGenerator;
         _winCondition = winCondition;
+        _winConditionView = winConditionView;
     }
 
     public async Task Restart()
@@ -23,6 +25,7 @@ public class GameRestarter : MonoBehaviour
 
         _levelGenerator.ResetLevels();
         _winCondition.Reset();
+        _winConditionView.ResetFadeState();
 
         int delayBeforeRestert = 1000;
         await Task.Delay(delayBeforeRestert);

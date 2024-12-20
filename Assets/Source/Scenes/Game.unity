@@ -590,6 +590,7 @@ GameObject:
   - component: {fileID: 524856343}
   - component: {fileID: 524856345}
   - component: {fileID: 524856344}
+  - component: {fileID: 524856346}
   m_Layer: 5
   m_Name: WinConditionText
   m_TagString: Untagged
@@ -713,6 +714,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 524856342}
   m_CullTransparentMesh: 1
+--- !u!114 &524856346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 524856342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a47b825b749f24644b54b5b58a316e1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _label: {fileID: 524856344}
 --- !u!1 &560094715
 GameObject:
   m_ObjectHideFlags: 0
@@ -786,7 +800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5d5878c4d77e6949b84e4ffde85bb36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _winConditionText: {fileID: 524856344}
+  _winConditionText: {fileID: 524856346}
 --- !u!4 &602247375
 Transform:
   m_ObjectHideFlags: 0
@@ -888,7 +902,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 645676093}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b708164ceb86a2a4ca2c38a31475b965, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d3a546da357aae47a3f2cd20489f205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _image: {fileID: 645676095}
@@ -1401,7 +1415,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1730402146}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b708164ceb86a2a4ca2c38a31475b965, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d3a546da357aae47a3f2cd20489f205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _image: {fileID: 1730402148}
@@ -1435,9 +1449,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab7950eeb1fe1b94ba66c36dce207c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _blackPanel: {fileID: 645676097}
   _nextLevelButton: {fileID: 522350398}
   _restartGameButton: {fileID: 684520135}
+  _blackPanel: {fileID: 645676097}
   _starsFirework: {fileID: 3653188251124892679, guid: 68d482d2f8656b34c919f81e109ee046, type: 3}
 --- !u!4 &1807124413
 Transform:

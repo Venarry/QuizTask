@@ -1,29 +1,45 @@
-using Assets.Source.Scripts.Level;
-using TMPro;
 using UnityEngine;
 
-public class WinConditionView : MonoBehaviour
+namespace Assets.Source.Scripts.Level
 {
-    private const string FindConditionText = "Find";
-
-    [SerializeField] private TMP_Text _winConditionText;
-    private IWinCondition _winCondition;
-
-    public void Init(IWinCondition winCondition)
+    public class WinConditionView : MonoBehaviour
     {
-        _winCondition = winCondition;
+        private const string FindConditionText = "Find";
 
-        _winCondition.Installed += OnWinConditionSet;
-    }
+        [SerializeField] private FadeText _winConditionText;
 
-    public void Disable()
-    {
-        _winCondition.Installed -= OnWinConditionSet;
-    }
+        private IWinCondition _winCondition;
+        private bool _isFirstFade = true;
 
-    private void OnWinConditionSet(string identificator)
-    {
-        _winConditionText.text = identificator;
-        _winConditionText.text = $"{FindConditionText} {identificator}";
+        public void Init(IWinCondition winCondition)
+        {
+            _winCondition = winCondition;
+
+            _winCondition.Installed += OnWinConditionSet;
+        }
+
+        public void ResetFadeState()
+        {
+            _isFirstFade = true;
+        }
+
+        public void Disable()
+        {
+            _winCondition.Installed -= OnWinConditionSet;
+        }
+
+        private void OnWinConditionSet(string identificator)
+        {
+            if (_isFirstFade == true)
+            {
+                _winConditionText.Show();
+                _winConditionText.Turn();
+
+                _isFirstFade = false;
+            }
+
+            _winConditionText.SetText(identificator);
+            _winConditionText.SetText($"{FindConditionText} {identificator}");
+        }
     }
 }

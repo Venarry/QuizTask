@@ -12,7 +12,7 @@ namespace Assets.Source.Scripts.Level
 
         [SerializeField] private Button _nextLevelButton;
         [SerializeField] private Button _restartGameButton;
-        [SerializeField] private FadeInEffect _blackPanel;
+        [SerializeField] private FadeImage _blackPanel;
         [SerializeField] private ParticleSystem _starsFirework;
 
         private readonly WaitForSeconds _waitForSeconds = new WaitForSeconds(NextButtonShowDelay);
