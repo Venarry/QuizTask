@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace Assets.Source.Scripts.Level
+namespace Assets.Source.Scripts.Effects
 {
     [RequireComponent(typeof(TMP_Text))]
     public class FadeText : MonoBehaviour

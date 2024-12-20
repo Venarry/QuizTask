@@ -1,36 +1,39 @@
-using Assets.Source.Scripts.Level;
+using Assets.Source.Scripts.Effects;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class GameRestarter : MonoBehaviour
+namespace Assets.Source.Scripts.Level
 {
-    [SerializeField] private FadeImage _loadingPanel;
-
-    private LevelGenerator _levelGenerator;
-    private IWinCondition _winCondition;
-    private WinConditionView _winConditionView;
-
-    public void Init(LevelGenerator levelGenerator, IWinCondition winCondition, WinConditionView winConditionView)
+    public class GameRestarter : MonoBehaviour
     {
-        _levelGenerator = levelGenerator;
-        _winCondition = winCondition;
-        _winConditionView = winConditionView;
-    }
+        [SerializeField] private FadeImage _loadingPanel;
 
-    public async Task Restart()
-    {
-        _loadingPanel.Show();
+        private LevelGenerator _levelGenerator;
+        private IWinCondition _winCondition;
+        private WinConditionView _winConditionView;
 
-        await _loadingPanel.Turn();
+        public void Init(LevelGenerator levelGenerator, IWinCondition winCondition, WinConditionView winConditionView)
+        {
+            _levelGenerator = levelGenerator;
+            _winCondition = winCondition;
+            _winConditionView = winConditionView;
+        }
 
-        _levelGenerator.ResetLevels();
-        _winCondition.Reset();
-        _winConditionView.ResetFadeState();
+        public async Task Restart()
+        {
+            _loadingPanel.Show();
 
-        int delayBeforeRestert = 1000;
-        await Task.Delay(delayBeforeRestert);
+            await _loadingPanel.Turn();
 
-        _levelGenerator.SpawnNextLevel(startBounceEffect: true);
-        _loadingPanel.Hide();
+            _levelGenerator.ResetLevels();
+            _winCondition.Reset();
+            _winConditionView.ResetFadeState();
+
+            int delayBeforeRestert = 1000;
+            await Task.Delay(delayBeforeRestert);
+
+            _levelGenerator.SpawnNextLevel(startBounceEffect: true);
+            _loadingPanel.Hide();
+        }
     }
 }

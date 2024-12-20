@@ -2,34 +2,37 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FadeImage : MonoBehaviour
+namespace Assets.Source.Scripts.Effects
 {
-    [SerializeField] private Image _image;
-    [SerializeField] private float _targetFadeValue = 50;
-
-    private FadeEffect<Image> _fadeEffect;
-
-    private void Awake()
+    public class FadeImage : MonoBehaviour
     {
-        _fadeEffect = new FadeEffect<Image>(_image, _targetFadeValue);
-    }
+        [SerializeField] private Image _image;
+        [SerializeField] private float _targetFadeValue = 50;
 
-    public void Show(float alpha = 0)
-    {
-        gameObject.SetActive(true);
+        private FadeEffect<Image> _fadeEffect;
 
-        _fadeEffect.Set(alpha);
-    }
+        private void Awake()
+        {
+            _fadeEffect = new FadeEffect<Image>(_image, _targetFadeValue);
+        }
 
-    public async Task Turn()
-    {
-        await _fadeEffect.Turn();
-    }
+        public void Show(float alpha = 0)
+        {
+            gameObject.SetActive(true);
 
-    public async Task Hide()
-    {
-        await _fadeEffect.Hide();
+            _fadeEffect.Set(alpha);
+        }
 
-        gameObject.SetActive(false);
+        public async Task Turn()
+        {
+            await _fadeEffect.Turn();
+        }
+
+        public async Task Hide()
+        {
+            await _fadeEffect.Hide();
+
+            gameObject.SetActive(false);
+        }
     }
 }

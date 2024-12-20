@@ -1,27 +1,30 @@
 using UnityEngine;
 
-public class EffectsAnimator : MonoBehaviour
+namespace Assets.Source.Scripts.Effects
 {
-    private const string NameBounceAnimation = "Bounce";
-    private const string NameEaseInBounceAnimation = "EaseInBounce";
-
-    [SerializeField] private Animator _cellAnimator;
-    [SerializeField] private Animator _symbolAnimator;
-
-    private readonly float _transitionDuration = 0.1f;
-
-    public void StartCellBounce()
+    public class EffectsAnimator : MonoBehaviour
     {
-        _cellAnimator.CrossFadeInFixedTime(NameBounceAnimation, _transitionDuration);
-    }
+        private const string NameBounceAnimation = "Bounce";
+        private const string NameEaseInBounceAnimation = "EaseInBounce";
 
-    public void StartSymbolEaseInBounce()
-    {
-        _symbolAnimator.CrossFadeInFixedTime(NameEaseInBounceAnimation, _transitionDuration);
-    }
-    
-    public void StartSymbolBounceEffect()
-    {
-        _symbolAnimator.CrossFadeInFixedTime(NameBounceAnimation, _transitionDuration);
+        [SerializeField] private Animator _cellAnimator;
+        [SerializeField] private Animator _symbolAnimator;
+
+        private readonly float _transitionDuration = 0.1f;
+
+        public void StartCellBounce()
+        {
+            _cellAnimator.CrossFadeInFixedTime(NameBounceAnimation, _transitionDuration);
+        }
+
+        public void StartSymbolEaseInBounce()
+        {
+            _symbolAnimator.CrossFadeInFixedTime(NameEaseInBounceAnimation, _transitionDuration);
+        }
+
+        public void StartSymbolBounceEffect()
+        {
+            _symbolAnimator.CrossFadeInFixedTime(NameBounceAnimation, _transitionDuration);
+        }
     }
 }
