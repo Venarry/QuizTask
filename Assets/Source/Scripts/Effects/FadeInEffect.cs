@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,12 +11,38 @@ public class FadeInEffect : MonoBehaviour
 
     public async Task Turn()
     {
-        float timer = 0;
         Color startColor = _image.color;
         Color targetColor = _image.color;
 
         float maxColorValue = 255;
         targetColor.a = _targetFadeValue / maxColorValue;
+
+        await FadeTo(startColor, targetColor);
+    }
+
+    public void Show(float alpha = 0)
+    {
+        gameObject.SetActive(true);
+
+        Color imageColor = _image.color;
+        imageColor.a = alpha;
+        _image.color = imageColor;
+    }
+
+    public async Task Hide()
+    {
+        Color startColor = _image.color;
+        Color targetColor = _image.color;
+        targetColor.a = 0;
+
+        await FadeTo(startColor, targetColor);
+
+        gameObject.SetActive(false);
+    }
+
+    private async Task FadeTo(Color startColor, Color targetColor)
+    {
+        float timer = 0;
 
         while (timer < _fadeDuration)
         {
@@ -27,19 +52,5 @@ public class FadeInEffect : MonoBehaviour
 
             await Task.Yield();
         }
-    }
-
-    public void Show()
-    {
-        gameObject.SetActive(true);
-
-        Color imageColor = _image.color;
-        imageColor.a = 0;
-        _image.color = imageColor;
-    }
-
-    public void Hide()
-    {
-        gameObject.SetActive(false);
     }
 }
