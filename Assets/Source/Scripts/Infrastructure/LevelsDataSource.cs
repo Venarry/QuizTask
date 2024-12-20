@@ -1,14 +1,16 @@
-﻿using Assets.Source.Scripts.Configs;
-using Assets.Source.Scripts.SO;
-using System.Linq;
+﻿using Assets.Source.Scripts.SO;
 using UnityEngine;
+using System.Linq;
 
 namespace Assets.Source.Scripts.Infrastructure
 {
-    public class LevelsDataSource
+    public class LevelsDataSource : MonoBehaviour
     {
-        private readonly LevelSO[] _levelsSO = Resources.LoadAll<LevelSO>(ResourcesPath.Levels);
+        [SerializeField] private LevelData[] _levels;
 
-        public LevelSO[] GetAll() => _levelsSO.ToArray();
+        public LevelSO[][] GetAll()
+        {
+            return _levels.Select(levelData => levelData.Level).ToArray();
+        }
     }
 }

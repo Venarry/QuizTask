@@ -11,14 +11,14 @@ namespace Assets.Source.Scripts.Infrastructure
         [SerializeField] private LevelCellsClickHandler _levelWinHandler;
         [SerializeField] private WinConditionView _winConditionView;
         [SerializeField] private GameRestarter _gameRestarter;
+        [SerializeField] private LevelsDataSource _levelsDataSource;
 
         private void Awake()
         {
             CellFactory cellFactory = new CellFactory();
             IWinCondition winCondition = new LevelWinCondition();
-            LevelsDataSource levelsDataSource = new LevelsDataSource();
 
-            LevelSO[] levels = levelsDataSource.GetAll();
+            LevelSO[][] levels = _levelsDataSource.GetAll();
 
             _levelGenerator.Init(cellFactory, levels);
             _winConditionView.Init(winCondition);

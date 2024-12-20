@@ -14,16 +14,17 @@ namespace Assets.Source.Scripts.Level
         [SerializeField] private float _outline = 10;
 
         private readonly List<Cell> _spawnedCells = new List<Cell>();
-        private readonly List<LevelSO> _levels = new List<LevelSO>();
+        private readonly List<LevelSO[]> _levels = new List<LevelSO[]>();
         private readonly QuizGrid _grid = new QuizGrid();
+
         private CellFactory _cellFactory;
         private int _activeLevelIndex = 0;
 
         public event Action<Cell[]> LevelSpawned;
 
-        public bool HasLevels => _levels.Count > _activeLevelIndex;
+        public bool HasLevels => HasAvailableLevels();
 
-        public void Init(CellFactory cellFactory, LevelSO[] levels)
+        public void Init(CellFactory cellFactory, LevelSO[][] levels)
         {
             _cellFactory = cellFactory;
 
@@ -43,7 +44,7 @@ namespace Assets.Source.Scripts.Level
             if (HasLevels == false)
                 return;
 
-            LevelSO nextLevel = _levels[_activeLevelIndex];
+            LevelSO nextLevel = GetNextLevelCells();
             _activeLevelIndex++;
 
             CellSO[] cells = nextLevel.Cells;
@@ -81,6 +82,35 @@ namespace Assets.Source.Scripts.Level
             }
 
             _spawnedCells.Clear();
+        }
+
+        private bool HasAvailableLevels()
+        {
+            foreach (LevelSO[] levels in _levels)
+            {
+                if(levels.Length > _activeLevelIndex)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private LevelSO GetNextLevelCells()
+        {
+            List<LevelSO[]> availableLevels = new List<LevelSO[]>();
+
+            foreach (LevelSO[] levels in _levels)
+            {
+                if (levels.Length > _activeLevelIndex)
+                {
+                    availableLevels.Add(levels);
+                }
+            }
+
+            int randomPackIndex = UnityEngine.Random.Range(0, availableLevels.Count);
+            return availableLevels[randomPackIndex][_activeLevelIndex];
         }
     }
 }
